@@ -91,6 +91,11 @@ u2550 : ═
 
 */
 
+// ARGS {weight} {seed} {draw_mode}
+// draw modes:
+// 0: decimal value
+// 1: detailed zones
+// 2: simple zones
 int main(int argc, char *argv[]) {
     printf("Hello World!\n");
     int mapWidth = 100;
@@ -156,18 +161,16 @@ int main(int argc, char *argv[]) {
                 }
             } else {
                 
-                if (gradientValue <= 0.8) {
+                if (gradientValue <= 0.05) {
                     drawChar = ' ';
-                } else if (gradientValue <= 0.9) {
+                } else if (gradientValue <= 0.1) {
                     drawChar = '.';
                 } else {
                     drawChar = '#';
                 }
             }
-            if (drawSymbols > 0 && drawSymbols < 4) {
+            if (drawSymbols > 0) {
                 printf("%c", drawChar);
-            } else if (drawSymbols == 4) {
-                printf("%0.2f ", Gradient[y][x][0]);
             } else {
                 printf("%0.2f ", gradientValue);
             }

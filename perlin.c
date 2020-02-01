@@ -146,7 +146,7 @@ int main(int argc, char *argv[]) {
     printf("%sGenerating gradient...\n", COLOR_RED);
     GenerateGradient();
 
-    printf("%s", BORDER_TOP_LEFT);
+    printf("%s%s", COLOR_RESET, BORDER_TOP_LEFT);
     for (int x = 0; x < mapWidth; x++) {
         printf("%s", BORDER_TOP_BOTTOM);
         if (drawSymbols == 0) {
@@ -175,7 +175,7 @@ int main(int argc, char *argv[]) {
                 printf("%0.2f ", gradientValue);
             }
         }
-        printf("%s\n", BORDER_LEFT_RIGHT);
+        printf("%s%s\n", COLOR_RESET, BORDER_LEFT_RIGHT);
     }
 
     printf("%s", BORDER_BOTTOM_LEFT);

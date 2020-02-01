@@ -7,27 +7,18 @@
 #define Y_MAX 1000
 #define X_MAX 1000
 
+// foreground ESC[38;5;#m   background: ESC[48;5;#m
 #define COLOR_RED "\033[38;5;196m"
 #define COLOR_WHITE "\033[38;5;255m"
 #define COLOR_GREEN "\033[38;5;40m"
 #define COLOR_BLUE "\033[38;5;33m"
 
-#define BORDER_TOP_LEFT "\u2554"
-#define BORDER_TOP_RIGHT "\u2557"
-#define BORDER_TOP_BOTTOM "\u2550"
-#define BORDER_BOTTOM_LEFT "\u255A"
-#define BORDER_BOTTOM_RIGHT "\u255D"
-#define BORDER_LEFT_RIGHT "\u2551"
-
-/*
-u255A : ╚
-u255D : ╝
-u2554 : ╔
-u2557 : ╗
-u2551 : ║
-u2550 : ═
-
-*/
+#define BORDER_TOP_LEFT "\u2554"        // ╔
+#define BORDER_TOP_RIGHT "\u2557"       // ╗
+#define BORDER_TOP_BOTTOM "\u2550"      // ═
+#define BORDER_BOTTOM_LEFT "\u255A"     // ╚
+#define BORDER_BOTTOM_RIGHT "\u255D"    // ╝
+#define BORDER_LEFT_RIGHT "\u2551"      // ║
 
 int seed = -1;
 

@@ -20,6 +20,48 @@
 #define BORDER_BOTTOM_RIGHT "\u255D"    // ╝
 #define BORDER_LEFT_RIGHT "\u2551"      // ║
 
+struct region {
+    char background[50];
+    char foreground[50];
+    char symbol;
+    float height;
+};
+
+/*
+  if (gradientValue <= 0.01) {
+            drawChar = ' ';
+    } else if (gradientValue <= 0.05) {
+    drawChar = ' ';
+                } else if (gradientValue <= 0.06) {
+                    drawChar = '.';
+                } else if (gradientValue <= 0.08) {
+                    drawChar = ',';
+                } else if (gradientValue <= 0.1) {
+                    drawChar = ':';
+                } else if (gradientValue <= 0.15) {
+                    drawChar = '*';
+                } else if (gradientValue <= 0.2) {
+                    drawChar = '%';
+                } else if (gradientValue <= 0.9) {
+                    drawChar = '&';
+                } else if (gradientValue <= 1) {
+                    drawChar = '#';
+                    */
+
+struct region regions[10] = {
+        {.background = "", .foreground = "", .symbol = ' ', .height = 0.01 }, // Deep Water
+        {.background = "", .foreground = "", .symbol = ' ', .height = 0.05 }, // Shallow Water
+        {.background = "", .foreground = "", .symbol = '.', .height = 0.06 }, // Sand
+        {.background = "", .foreground = "", .symbol = ',', .height = 0.08 }, // Grass
+        {.background = "", .foreground = "", .symbol = ':', .height = 0.1 }, // Rocky
+        {.background = "", .foreground = "", .symbol = '"', .height = 0.15 }, // Mountain Meadow
+        {.background = "", .foreground = "", .symbol = '*', .height = 0.2 }, // Mountain
+        {.background = "", .foreground = "", .symbol = '%', .height = 0.5 }, // Mountain tops
+        {.background = "", .foreground = "", .symbol = '&', .height = 0.9 }, // Snow
+        {.background = "", .foreground = "", .symbol = '#', .height = 1 }, // Ice
+    };
+
+
 int seed = -1;
 
 float Gradient[Y_MAX][X_MAX][2];

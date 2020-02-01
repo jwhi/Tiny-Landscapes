@@ -13,9 +13,22 @@
 #define COLOR_GREEN "\033[38;5;40m"
 #define COLOR_BLUE "\033[38;5;33m"
 
+#define BACKGROUND_DARK_BLUE "\033[48;5;19m"
+#define BACKGROUND_BLUE "\033[48;5;21m"
+#define BACKGROUND_LIGHT_BLUE "\033[48;5;26m"
+
+#define BACKGROUND_SAND "\033[48;5;231m"
+
+#define BACKGROUND_CLIFF "\033[48;5;243m"
+#define BACKGROUND_MOUNTAIN "\033[48;5;240m"
+#define BACKGROUND_MOUNTAIN_SNOW "\033[48;5;15m"
+
+#define BACKGROUND_GRASS "\033[48;5;22m"
+#define BACKGROUND_MOUNTAIN_GRASS "\033[48;5;34m"
+
 #define COLOR_RESET "\e[0m"
 
-#define REGION_COUNT 10
+#define REGION_COUNT 11
 
 #define BORDER_TOP_LEFT "\u2554"        // ╔
 #define BORDER_TOP_RIGHT "\u2557"       // ╗
@@ -32,14 +45,15 @@ struct region {
 };
 
 struct region regions[REGION_COUNT] = {
-        {.background = COLOR_BLUE, .foreground = "", .symbol = ' ', .height = 0.01 }, // Deep Water
-        {.background = COLOR_BLUE, .foreground = "", .symbol = ' ', .height = 0.05 }, // Shallow Water
-        {.background = COLOR_RED, .foreground = "", .symbol = '.', .height = 0.06 }, // Sand
-        {.background = COLOR_GREEN, .foreground = "", .symbol = ',', .height = 0.08 }, // Grass
-        {.background = COLOR_RESET, .foreground = "", .symbol = ':', .height = 0.1 }, // Rocky
-        {.background = COLOR_GREEN, .foreground = "", .symbol = '"', .height = 0.15 }, // Mountain Meadow
-        {.background = COLOR_RESET, .foreground = "", .symbol = '*', .height = 0.2 }, // Mountain
-        {.background = COLOR_RESET, .foreground = "", .symbol = '%', .height = 0.5 }, // Mountain tops
+        {.background = BACKGROUND_DARK_BLUE, .foreground = "", .symbol = ' ', .height = 0.02 }, // Deep Water
+        {.background = BACKGROUND_BLUE, .foreground = "", .symbol = ' ', .height = 0.03 }, // Water
+        {.background = BACKGROUND_LIGHT_BLUE, .foreground = "", .symbol = ' ', .height = 0.05 }, // Shallow Water
+        {.background = BACKGROUND_SAND, .foreground = "", .symbol = '.', .height = 0.08 }, // Sand
+        {.background = BACKGROUND_GRASS, .foreground = "", .symbol = ',', .height = 0.1 }, // Grass
+        {.background = BACKGROUND_CLIFF, .foreground = "", .symbol = ':', .height = 0.12 }, // Rocky
+        {.background = BACKGROUND_MOUNTAIN_GRASS, .foreground = "", .symbol = '"', .height = 0.15 }, // Mountain Meadow
+        {.background = BACKGROUND_MOUNTAIN, .foreground = "", .symbol = '*', .height = 0.4 }, // Mountain
+        {.background = BACKGROUND_MOUNTAIN_SNOW, .foreground = "", .symbol = '%', .height = 0.5 }, // Mountain tops
         {.background = COLOR_RESET, .foreground = "", .symbol = '&', .height = 0.9 }, // Snow
         {.background = COLOR_RESET, .foreground = "", .symbol = '#', .height = 1 }, // Ice
     };
@@ -186,8 +200,6 @@ int main(int argc, char *argv[]) {
         }
     }
     printf("%s\n", BORDER_BOTTOM_RIGHT);
-    
-    printf("%sBLUE\n%sGREEN\n%sRED\n%sWHITE\n", COLOR_BLUE, COLOR_GREEN, COLOR_RED, COLOR_WHITE);
 
     return 0;
 }

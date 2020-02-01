@@ -4,12 +4,30 @@
 #include <time.h>
 #include <math.h>
 
-// const int Y_MAX = 1000;
-// const int X_MAX = 1000;
 #define Y_MAX 1000
 #define X_MAX 1000
 
+#define COLOR_RED "\033[38;5;196m"
+#define COLOR_WHITE "\033[38;5;255m"
+#define COLOR_GREEN "\[\033[38;5;40m\]"
+#define COLOR_BLUE "\[\033[38;5;33m\]"
 
+#define BORDER_TOP_LEFT "\u2554"
+#define BORDER_TOP_RIGHT "\u2557"
+#define BORDER_TOP_BOTTOM "\u2550"
+#define BORDER_BOTTOM_LEFT "\u255A"
+#define BORDER_BOTTOM_RIGHT "\u255D"
+#define BORDER_LEFT_RIGHT "\u2551"
+
+/*
+u255A : ╚
+u255D : ╝
+u2554 : ╔
+u2557 : ╗
+u2551 : ║
+u2550 : ═
+
+*/
 
 int seed = -1;
 
@@ -83,15 +101,7 @@ float perlin(float x, float y) {
     return value;
 }
 
-/*
-u255A : ╚
-u255D : ╝
-u2554 : ╔
-u2557 : ╗
-u2551 : ║
-u2550 : ═
 
-*/
 
 // ARGS {weight} {seed} {draw_mode}
 // draw modes:
@@ -99,7 +109,7 @@ u2550 : ═
 // 1: detailed zones
 // 2: simple zones
 int main(int argc, char *argv[]) {
-    printf("\033[38;5;255mHello World!\n");
+    printf("Hello World!\n");
     int mapWidth = 100;
     int mapHeight = 30;
 
@@ -117,21 +127,20 @@ int main(int argc, char *argv[]) {
     }
 
 
-    printf("\033[38;5;196mGenerating gradient...\n");
+    printf("%sGenerating gradient...\n", COLOR_RED);
     GenerateGradient();
 
-
-    printf("%s", "\033[38;5;196m\u2554");
+    printf("%s", BORDER_TOP_LEFT);
     for (int x = 0; x < mapWidth; x++) {
-        printf("%s", "\u2550");
+        printf("%s", BORDER_TOP_BOTTOM);
         if (drawSymbols == 0) {
-            printf("\u2550\u2550\u2550\u2550");
+            printf("%s%s%s%s", BORDER_TOP_BOTTOM, BORDER_TOP_BOTTOM, BORDER_TOP_BOTTOM, BORDER_TOP_BOTTOM);
         }
     }
-    printf("%s", "\u2557\n");
+    printf("%s\n", BORDER_TOP_RIGHT);
 
     for (int y = 0; y < mapHeight; y++) {
-        printf("%s", "\u2551");
+        printf("%s", BORDER_LEFT_RIGHT);
         for (int x = 0; x < mapWidth; x++) {
             float sampleX = x / scale;
             float sampleY = y / scale;
@@ -177,26 +186,17 @@ int main(int argc, char *argv[]) {
                 printf("%0.2f ", gradientValue);
             }
         }
-        printf("%s\n", "\u2551");
+        printf("%s\n", BORDER_LEFT_RIGHT);
     }
 
-    printf("%s", "\u255A");
+    printf("%s", BORDER_BOTTOM_LEFT);
     for (int x = 0; x < mapWidth; x++) {
-        printf("%s", "\u2550");
+        printf("%s", BORDER_TOP_BOTTOM);
         if (drawSymbols == 0) {
-            printf("\u2550\u2550\u2550\u2550");
+            printf("%s%s%s%s", BORDER_TOP_BOTTOM, BORDER_TOP_BOTTOM, BORDER_TOP_BOTTOM, BORDER_TOP_BOTTOM);
         }
     }
-    printf("%s", "\u255D\n");
-
-    /*
-    printf("Perlin for 10,10: %f\n\n\n", perlin(0.5f, 0.4f));
-    for (int y = 0; y < Y_MAX; y++) {
-        for (int x = 0; x < X_MAX; x++) {
-            printf("%0.2f %0.2f, ", Gradient[y][x][0], Gradient[y][x][1]);
-        }
-        printf("\n");
-    }
-    */
+    printf("%s\n", BORDER_BOTTOM_RIGHT);
+    
     return 0;
 }

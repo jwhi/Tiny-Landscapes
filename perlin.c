@@ -13,6 +13,8 @@
 #define COLOR_GREEN "\033[38;5;40m"
 #define COLOR_BLUE "\033[38;5;33m"
 
+#define COLOR_RESET "\e[0m"
+
 #define REGION_COUNT 10
 
 #define BORDER_TOP_LEFT "\u2554"        // ╔
@@ -30,16 +32,16 @@ struct region {
 };
 
 struct region regions[REGION_COUNT] = {
-        {.background = "", .foreground = "", .symbol = ' ', .height = 0.01 }, // Deep Water
-        {.background = "", .foreground = "", .symbol = ' ', .height = 0.05 }, // Shallow Water
-        {.background = "", .foreground = "", .symbol = '.', .height = 0.06 }, // Sand
-        {.background = "", .foreground = "", .symbol = ',', .height = 0.08 }, // Grass
-        {.background = "", .foreground = "", .symbol = ':', .height = 0.1 }, // Rocky
-        {.background = "", .foreground = "", .symbol = '"', .height = 0.15 }, // Mountain Meadow
-        {.background = "", .foreground = "", .symbol = '*', .height = 0.2 }, // Mountain
-        {.background = "", .foreground = "", .symbol = '%', .height = 0.5 }, // Mountain tops
-        {.background = "", .foreground = "", .symbol = '&', .height = 0.9 }, // Snow
-        {.background = "", .foreground = "", .symbol = '#', .height = 1 }, // Ice
+        {.background = COLOR_BLUE, .foreground = "", .symbol = ' ', .height = 0.01 }, // Deep Water
+        {.background = COLOR_BLUE, .foreground = "", .symbol = ' ', .height = 0.05 }, // Shallow Water
+        {.background = COLOR_RED, .foreground = "", .symbol = '.', .height = 0.06 }, // Sand
+        {.background = COLOR_GREEN, .foreground = "", .symbol = ',', .height = 0.08 }, // Grass
+        {.background = COLOR_RESET, .foreground = "", .symbol = ':', .height = 0.1 }, // Rocky
+        {.background = COLOR_GREEN, .foreground = "", .symbol = '"', .height = 0.15 }, // Mountain Meadow
+        {.background = COLOR_RESET, .foreground = "", .symbol = '*', .height = 0.2 }, // Mountain
+        {.background = COLOR_RESET, .foreground = "", .symbol = '%', .height = 0.5 }, // Mountain tops
+        {.background = COLOR_RESET, .foreground = "", .symbol = '&', .height = 0.9 }, // Snow
+        {.background = COLOR_RESET, .foreground = "", .symbol = '#', .height = 1 }, // Ice
     };
 
 
@@ -165,22 +167,10 @@ int main(int argc, char *argv[]) {
             if (drawSymbols == 1) {
                 for (int i = 0; i < REGION_COUNT; i++) {
                     if (gradientValue <= regions[i].height) {
-                        drawChar = regions[i].symbol;
+                        printf("%s%c", regions[i].background, regions[i].symbol);
                         break;
                     }
                 }
-            } else {
-                
-                if (gradientValue <= 0.05) {
-                    drawChar = ' ';
-                } else if (gradientValue <= 0.1) {
-                    drawChar = '.';
-                } else {
-                    drawChar = '#';
-                }
-            }
-            if (drawSymbols > 0) {
-                printf("%c", drawChar);
             } else {
                 printf("%0.2f ", gradientValue);
             }

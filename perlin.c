@@ -97,7 +97,7 @@ u2550 : ═
 // 1: detailed zones
 // 2: simple zones
 int main(int argc, char *argv[]) {
-    printf("Hello World!\n");
+    printf("\033[38;5;255mHello World!\n");
     int mapWidth = 100;
     int mapHeight = 30;
 
@@ -115,11 +115,11 @@ int main(int argc, char *argv[]) {
     }
 
 
-    printf("Generating gradient...\n");
+    printf("\033[38;5;196mGenerating gradient...\n");
     GenerateGradient();
 
 
-    printf("%s", "\u2554");
+    printf("%s", "\033[38;5;196m\u2554");
     for (int x = 0; x < mapWidth; x++) {
         printf("%s", "\u2550");
         if (drawSymbols == 0) {

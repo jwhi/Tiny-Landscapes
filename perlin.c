@@ -13,6 +13,8 @@
 #define COLOR_GREEN "\033[38;5;40m"
 #define COLOR_BLUE "\033[38;5;33m"
 
+#define REGION_COUNT 10
+
 #define BORDER_TOP_LEFT "\u2554"        // ╔
 #define BORDER_TOP_RIGHT "\u2557"       // ╗
 #define BORDER_TOP_BOTTOM "\u2550"      // ═
@@ -27,28 +29,7 @@ struct region {
     float height;
 };
 
-/*
-  if (gradientValue <= 0.01) {
-            drawChar = ' ';
-    } else if (gradientValue <= 0.05) {
-    drawChar = ' ';
-                } else if (gradientValue <= 0.06) {
-                    drawChar = '.';
-                } else if (gradientValue <= 0.08) {
-                    drawChar = ',';
-                } else if (gradientValue <= 0.1) {
-                    drawChar = ':';
-                } else if (gradientValue <= 0.15) {
-                    drawChar = '*';
-                } else if (gradientValue <= 0.2) {
-                    drawChar = '%';
-                } else if (gradientValue <= 0.9) {
-                    drawChar = '&';
-                } else if (gradientValue <= 1) {
-                    drawChar = '#';
-                    */
-
-struct region regions[10] = {
+struct region regions[REGION_COUNT] = {
         {.background = "", .foreground = "", .symbol = ' ', .height = 0.01 }, // Deep Water
         {.background = "", .foreground = "", .symbol = ' ', .height = 0.05 }, // Shallow Water
         {.background = "", .foreground = "", .symbol = '.', .height = 0.06 }, // Sand
@@ -179,29 +160,14 @@ int main(int argc, char *argv[]) {
             float sampleY = y / scale;
             float noiseValue = fabs(perlin(sampleX, sampleY));
             float gradientValue = 1 - lerp(1, 0, noiseValue);
-            char drawChar = '_';
+            char drawChar = 'E';
 
             if (drawSymbols == 1) {
-                if (gradientValue <= 0.01) {
-                    drawChar = ' ';
-                } else if (gradientValue <= 0.05) {
-                    drawChar = ' ';
-                } else if (gradientValue <= 0.06) {
-                    drawChar = '.';
-                } else if (gradientValue <= 0.08) {
-                    drawChar = ',';
-                } else if (gradientValue <= 0.1) {
-                    drawChar = ':';
-                } else if (gradientValue <= 0.15) {
-                    drawChar = '*';
-                } else if (gradientValue <= 0.2) {
-                    drawChar = '%';
-                } else if (gradientValue <= 0.9) {
-                    drawChar = '&';
-                } else if (gradientValue <= 1) {
-                    drawChar = '#';
-                } else {
-                    drawChar = 'E';
+                for (int i = 0; i < REGION_COUNT; i++) {
+                    if (gradientValue <= regions[i].height) {
+                        drawChar = regions[i].symbol;
+                        break;
+                    }
                 }
             } else {
                 

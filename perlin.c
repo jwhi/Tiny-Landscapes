@@ -4,8 +4,10 @@
 #include <time.h>
 #include <math.h>
 
-const int Y_MAX = 1000;
-const int X_MAX = 1000;
+// const int Y_MAX = 1000;
+// const int X_MAX = 1000;
+#define Y_MAX 1000
+#define X_MAX 1000
 
 
 

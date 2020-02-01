@@ -9,8 +9,8 @@
 
 #define COLOR_RED "\033[38;5;196m"
 #define COLOR_WHITE "\033[38;5;255m"
-#define COLOR_GREEN "\[\033[38;5;40m\]"
-#define COLOR_BLUE "\[\033[38;5;33m\]"
+#define COLOR_GREEN "\033[38;5;40m"
+#define COLOR_BLUE "\033[38;5;33m"
 
 #define BORDER_TOP_LEFT "\u2554"
 #define BORDER_TOP_RIGHT "\u2557"
@@ -198,5 +198,7 @@ int main(int argc, char *argv[]) {
     }
     printf("%s\n", BORDER_BOTTOM_RIGHT);
     
+    printf("%sBLUE\n%sGREEN\n%sRED\n%sWHITE\n", COLOR_BLUE, COLOR_GREEN, COLOR_RED, COLOR_WHITE);
+
     return 0;
 }

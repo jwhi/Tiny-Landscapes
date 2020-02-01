@@ -48,10 +48,10 @@ struct region regions[REGION_COUNT] = {
         {.background = BACKGROUND_DARK_BLUE, .foreground = "", .symbol = ' ', .height = 0.02 }, // Deep Water
         {.background = BACKGROUND_BLUE, .foreground = "", .symbol = ' ', .height = 0.03 }, // Water
         {.background = BACKGROUND_LIGHT_BLUE, .foreground = "", .symbol = ' ', .height = 0.05 }, // Shallow Water
-        {.background = BACKGROUND_SAND, .foreground = "", .symbol = '.', .height = 0.08 }, // Sand
+        {.background = BACKGROUND_SAND, .foreground = "", .symbol = '.', .height = 0.07 }, // Sand
         {.background = BACKGROUND_GRASS, .foreground = "", .symbol = ',', .height = 0.1 }, // Grass
-        {.background = BACKGROUND_CLIFF, .foreground = "", .symbol = ':', .height = 0.12 }, // Rocky
-        {.background = BACKGROUND_MOUNTAIN_GRASS, .foreground = "", .symbol = '"', .height = 0.15 }, // Mountain Meadow
+        {.background = BACKGROUND_MOUNTAIN_GRASS, .foreground = "", .symbol = ':', .height = 0.12 }, // Mountain Meadow
+        {.background = BACKGROUND_CLIFF, .foreground = "", .symbol = '"', .height = 0.18 }, // Rocky
         {.background = BACKGROUND_MOUNTAIN, .foreground = "", .symbol = '*', .height = 0.4 }, // Mountain
         {.background = BACKGROUND_MOUNTAIN_SNOW, .foreground = "", .symbol = '%', .height = 0.5 }, // Mountain tops
         {.background = COLOR_RESET, .foreground = "", .symbol = '&', .height = 0.9 }, // Snow
@@ -181,7 +181,7 @@ int main(int argc, char *argv[]) {
             if (drawSymbols == 1) {
                 for (int i = 0; i < REGION_COUNT; i++) {
                     if (gradientValue <= regions[i].height) {
-                        printf("%s%c", regions[i].background, regions[i].symbol);
+                        printf("%s%c", regions[i].background, ' '); // regions[i].symbol);
                         break;
                     }
                 }

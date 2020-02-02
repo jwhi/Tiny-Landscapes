@@ -40,13 +40,15 @@
 #define FOREGROUND_GRASS "\033[38;5;22m"
 #define FOREGROUND_MOUNTAIN_GRASS "\033[38;5;34m"
 
-#define FOREGROUND_TREE "\033[38;5;29m"
-
+#define FOREGROUND_TREE "\033[38;5;106m"
+#define FOREGROUND_FOREST "\033[38;5;28m"
+#define FOREGROUND_WHEAT "\033[38;5;220m"
+#define FOREGROUND_ROCKS "\033[38;5;249m"
 
 #define COLOR_RESET "\e[0m"
 
 #define REGION_COUNT 11
-#define FOLIAGE_COUNT 1
+#define FOLIAGE_COUNT 4
 
 #define BORDER_TOP_LEFT "\u2554"        // ╔
 #define BORDER_TOP_RIGHT "\u2557"       // ╗
@@ -63,9 +65,9 @@ struct region {
 };
 
 struct foliage {
-    char background[13];
-    char foreground[13];
-    char symbol[8];         // 4 characters long to support unicode characters.
+    char background[12];
+    char foreground[12];
+    char symbol[4];         // 4 characters long to support unicode characters.
     float spawnRange[2];
     float percantage;
 };
@@ -75,17 +77,20 @@ struct region regions[REGION_COUNT] = {
         {.background = BACKGROUND_BLUE, .foreground = FOREGROUND_BLUE, .symbol = '-', .height = 0.03 }, // Water
         {.background = BACKGROUND_LIGHT_BLUE, .foreground = FOREGROUND_LIGHT_BLUE, .symbol = '.', .height = 0.05 }, // Shallow Water
         {.background = BACKGROUND_SAND, .foreground = FOREGROUND_SAND, .symbol = '.', .height = 0.07 }, // Sand
-        {.background = BACKGROUND_GRASS, .foreground = FOREGROUND_GRASS, .symbol = ',', .height = 0.14 }, // Grass
-        {.background = BACKGROUND_MOUNTAIN_GRASS, .foreground = FOREGROUND_MOUNTAIN_GRASS, .symbol = ':', .height = 0.16 }, // Mountain Meadow
+        {.background = BACKGROUND_GRASS, .foreground = FOREGROUND_GRASS, .symbol = ',', .height = 0.132 }, // Grass
+        {.background = BACKGROUND_MOUNTAIN_GRASS, .foreground = FOREGROUND_MOUNTAIN_GRASS, .symbol = ':', .height = 0.17 }, // Mountain Meadow
         {.background = BACKGROUND_CLIFF, .foreground = FOREGROUND_CLIFF, .symbol = '"', .height = 0.2 }, // Rocky
-        {.background = BACKGROUND_MOUNTAIN, .foreground = FOREGROUND_MOUNTAIN, .symbol = '*', .height = 0.4 }, // Mountain
-        {.background = BACKGROUND_MOUNTAIN_SNOW, .foreground = FOREGROUND_MOUNTAIN_SNOW, .symbol = '%', .height = 0.5 }, // Mountain tops
+        {.background = BACKGROUND_MOUNTAIN, .foreground = FOREGROUND_MOUNTAIN, .symbol = '*', .height = 0.5 }, // Mountain
+        {.background = BACKGROUND_MOUNTAIN_SNOW, .foreground = FOREGROUND_MOUNTAIN_SNOW, .symbol = '%', .height = 0.55 }, // Mountain tops
         {.background = COLOR_RESET, .foreground = COLOR_RESET, .symbol = '&', .height = 0.9 }, // Snow
         {.background = COLOR_RESET, .foreground = COLOR_RESET, .symbol = '#', .height = 1 }, // Ice
     };
 
 struct foliage foliageTypes[FOLIAGE_COUNT] = {
-    {.background = NULL, .foreground = FOREGROUND_TREE, .symbol = "\u2660", .spawnRange = {0.08, 0.1}, .percantage = .1}
+    {.background = "", .foreground = FOREGROUND_TREE, .symbol = "\u2660", .spawnRange = {0.08, 0.1}, .percantage = .1},
+    {.background = "", .foreground = FOREGROUND_FOREST, .symbol = "\u2663", .spawnRange = {0.08, 0.098}, .percantage = .15},
+    {.background = "", .foreground = FOREGROUND_WHEAT, .symbol = "\"", .spawnRange = {0.08, 0.1}, .percantage = .3},
+    {.background = "", .foreground = FOREGROUND_ROCKS, .symbol = "\u25AA", .spawnRange = {0.134, 0.165}, .percantage = .1}
     /*
      * ☘	2618	 	SHAMROCK
      * ☙	2619	 	REVERSED ROTATED FLORAL HEART BULLET

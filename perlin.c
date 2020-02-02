@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <float.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 #include <math.h>
 
@@ -39,11 +40,13 @@
 #define FOREGROUND_GRASS "\033[38;5;22m"
 #define FOREGROUND_MOUNTAIN_GRASS "\033[38;5;34m"
 
+#define FOREGROUND_TREE "\033[38;5;29m"
 
 
 #define COLOR_RESET "\e[0m"
 
 #define REGION_COUNT 11
+#define FOLIAGE_COUNT 1
 
 #define BORDER_TOP_LEFT "\u2554"        // ╔
 #define BORDER_TOP_RIGHT "\u2557"       // ╗
@@ -53,10 +56,18 @@
 #define BORDER_LEFT_RIGHT "\u2551"      // ║
 
 struct region {
-    char background[50];
-    char foreground[50];
+    char background[13];
+    char foreground[13];
     char symbol;
     float height;
+};
+
+struct foliage {
+    char background[13];
+    char foreground[13];
+    char symbol[8];         // 4 characters long to support unicode characters.
+    float spawnRange[2];
+    float percantage;
 };
 
 struct region regions[REGION_COUNT] = {
@@ -64,15 +75,18 @@ struct region regions[REGION_COUNT] = {
         {.background = BACKGROUND_BLUE, .foreground = FOREGROUND_BLUE, .symbol = '-', .height = 0.03 }, // Water
         {.background = BACKGROUND_LIGHT_BLUE, .foreground = FOREGROUND_LIGHT_BLUE, .symbol = '.', .height = 0.05 }, // Shallow Water
         {.background = BACKGROUND_SAND, .foreground = FOREGROUND_SAND, .symbol = '.', .height = 0.07 }, // Sand
-        {.background = BACKGROUND_GRASS, .foreground = FOREGROUND_GRASS, .symbol = ',', .height = 0.1 }, // Grass
-        {.background = BACKGROUND_MOUNTAIN_GRASS, .foreground = FOREGROUND_MOUNTAIN_GRASS, .symbol = ':', .height = 0.12 }, // Mountain Meadow
-        {.background = BACKGROUND_CLIFF, .foreground = FOREGROUND_CLIFF, .symbol = '"', .height = 0.18 }, // Rocky
+        {.background = BACKGROUND_GRASS, .foreground = FOREGROUND_GRASS, .symbol = ',', .height = 0.14 }, // Grass
+        {.background = BACKGROUND_MOUNTAIN_GRASS, .foreground = FOREGROUND_MOUNTAIN_GRASS, .symbol = ':', .height = 0.16 }, // Mountain Meadow
+        {.background = BACKGROUND_CLIFF, .foreground = FOREGROUND_CLIFF, .symbol = '"', .height = 0.2 }, // Rocky
         {.background = BACKGROUND_MOUNTAIN, .foreground = FOREGROUND_MOUNTAIN, .symbol = '*', .height = 0.4 }, // Mountain
         {.background = BACKGROUND_MOUNTAIN_SNOW, .foreground = FOREGROUND_MOUNTAIN_SNOW, .symbol = '%', .height = 0.5 }, // Mountain tops
         {.background = COLOR_RESET, .foreground = COLOR_RESET, .symbol = '&', .height = 0.9 }, // Snow
         {.background = COLOR_RESET, .foreground = COLOR_RESET, .symbol = '#', .height = 1 }, // Ice
     };
 
+struct foliage foliageTypes[FOLIAGE_COUNT] = {
+    {.background = NULL, .foreground = FOREGROUND_TREE, .symbol = "\u2660", .spawnRange = {0.08, 0.1}, .percantage = .1}
+};
 
 int seed = -1;
 
@@ -190,17 +204,36 @@ int main(int argc, char *argv[]) {
             float gradientValue = 1 - lerp(1, 0, noiseValue);
             char drawChar = 'E';
 
-            if (drawSymbols == 1) {
+            if (drawSymbols == 1) {                    
+                int foliageDrawn = 0;
                 for (int i = 0; i < REGION_COUNT; i++) {
                     if (gradientValue <= regions[i].height) {
-                        printf("%s%c", regions[i].background, ' '); // regions[i].symbol);
+                        for (int j = 0; j < FOLIAGE_COUNT; j++) {
+                            struct foliage f = foliageTypes[j];
+                            if (gradientValue > f.spawnRange[0] && gradientValue <= f.spawnRange[1]) {
+                                if (RandomPercent() <= f.percantage) {
+                                    if (strlen(f.background) > 0) {
+                                        printf("%s%s%s", f.background, f.foreground, f.symbol);
+                                    } else {
+                                        printf("%s%s%s", regions[i].background, f.foreground, f.symbol);
+                                    }
+                                    foliageDrawn = 1;
+                                }
+                            }
+                            if (foliageDrawn == 1) {
+                                break;
+                            }
+                        }
+                        if (foliageDrawn == 0) {
+                            printf("%s%c", regions[i].background, ' ');
+                        }
                         break;
                     }
                 }
             } else if (drawSymbols == 2) {
                 for (int i = 0; i < REGION_COUNT; i++) {
                     if (gradientValue <= regions[i].height) {
-                        printf("%s%c", regions[i].background, regions[i].symbol);
+                        printf("%s%c", regions[i].background, ' '); // regions[i].symbol);
                         break;
                     }
                 }
@@ -215,6 +248,13 @@ int main(int argc, char *argv[]) {
                 for (int i = 0; i < REGION_COUNT; i++) {
                     if (gradientValue <= regions[i].height) {
                         printf("%s%s%c", regions[i].background, regions[i].foreground, regions[i].symbol);
+                        break;
+                    }
+                }
+            } else if (drawSymbols == 5) {
+                for (int i = 0; i < REGION_COUNT; i++) {
+                    if (gradientValue <= regions[i].height) {
+                        printf("%s%c", regions[i].background, regions[i].symbol);
                         break;
                     }
                 }

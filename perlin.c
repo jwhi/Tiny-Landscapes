@@ -154,7 +154,6 @@ float perlin(float x, float y) {
 // 1: detailed zones
 // 2: simple zones
 int main(int argc, char *argv[]) {
-    printf("Hello World!\n");
     int mapWidth = 100;
     int mapHeight = 30;
 
@@ -171,8 +170,6 @@ int main(int argc, char *argv[]) {
         drawSymbols = atoi(argv[3]);
     }
 
-
-    printf("%sGenerating gradient...\n", COLOR_RED);
     GenerateGradient();
 
     printf("%s%s", COLOR_RESET, BORDER_TOP_LEFT);

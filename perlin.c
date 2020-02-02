@@ -86,6 +86,30 @@ struct region regions[REGION_COUNT] = {
 
 struct foliage foliageTypes[FOLIAGE_COUNT] = {
     {.background = NULL, .foreground = FOREGROUND_TREE, .symbol = "\u2660", .spawnRange = {0.08, 0.1}, .percantage = .1}
+    /*
+     * ☘	2618	 	SHAMROCK
+     * ☙	2619	 	REVERSED ROTATED FLORAL HEART BULLET
+     * ♨	2668	 	HOT SPRINGS
+     * ♣  	2663    	BLACK CLUB SUIT
+     * ⛆	26C6	 	RAIN
+     * ❝     275D      Inverted Fancy Quote
+     * ❞     275E      Fancy Quote
+     * ✿    273F       Flower
+     * ❟     275F     Comma
+     * ❠     2760      Double comma
+     * ❦     2766
+     * ❧     2767
+     * ●      25CF
+     * ⑆      2446
+     * ⑇      2447
+     * ⑈      2448
+     * ▖    2596
+     * ▗    2597
+     * ▘    2598
+     * ▝    259D
+     * ■    25A0
+     * ▪    25AA
+     */
 };
 
 int seed = -1;

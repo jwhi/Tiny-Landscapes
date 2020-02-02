@@ -4,11 +4,74 @@
 #include <time.h>
 #include <math.h>
 
-// const int Y_MAX = 1000;
-// const int X_MAX = 1000;
 #define Y_MAX 1000
 #define X_MAX 1000
 
+// foreground ESC[38;5;#m   background: ESC[48;5;#m
+#define COLOR_RED "\033[38;5;196m"
+#define COLOR_WHITE "\033[38;5;255m"
+#define COLOR_GREEN "\033[38;5;40m"
+#define COLOR_BLUE "\033[38;5;33m"
+
+#define BACKGROUND_DARK_BLUE "\033[48;5;19m"
+#define BACKGROUND_BLUE "\033[48;5;21m"
+#define BACKGROUND_LIGHT_BLUE "\033[48;5;26m"
+
+#define BACKGROUND_SAND "\033[48;5;187m"
+
+#define BACKGROUND_CLIFF "\033[48;5;243m"
+#define BACKGROUND_MOUNTAIN "\033[48;5;240m"
+#define BACKGROUND_MOUNTAIN_SNOW "\033[48;5;15m"
+
+#define BACKGROUND_GRASS "\033[48;5;22m"
+#define BACKGROUND_MOUNTAIN_GRASS "\033[48;5;34m"
+
+#define FOREGROUND_DARK_BLUE "\033[38;5;19m"
+#define FOREGROUND_BLUE "\033[38;5;21m"
+#define FOREGROUND_LIGHT_BLUE "\033[38;5;26m"
+
+#define FOREGROUND_SAND "\033[38;5;187m"
+
+#define FOREGROUND_CLIFF "\033[38;5;243m"
+#define FOREGROUND_MOUNTAIN "\033[38;5;240m"
+#define FOREGROUND_MOUNTAIN_SNOW "\033[38;5;15m"
+
+#define FOREGROUND_GRASS "\033[38;5;22m"
+#define FOREGROUND_MOUNTAIN_GRASS "\033[38;5;34m"
+
+
+
+#define COLOR_RESET "\e[0m"
+
+#define REGION_COUNT 11
+
+#define BORDER_TOP_LEFT "\u2554"        // ╔
+#define BORDER_TOP_RIGHT "\u2557"       // ╗
+#define BORDER_TOP_BOTTOM "\u2550"      // ═
+#define BORDER_BOTTOM_LEFT "\u255A"     // ╚
+#define BORDER_BOTTOM_RIGHT "\u255D"    // ╝
+#define BORDER_LEFT_RIGHT "\u2551"      // ║
+
+struct region {
+    char background[50];
+    char foreground[50];
+    char symbol;
+    float height;
+};
+
+struct region regions[REGION_COUNT] = {
+        {.background = BACKGROUND_DARK_BLUE, .foreground = FOREGROUND_DARK_BLUE, .symbol = '~', .height = 0.02 }, // Deep Water
+        {.background = BACKGROUND_BLUE, .foreground = FOREGROUND_BLUE, .symbol = '-', .height = 0.03 }, // Water
+        {.background = BACKGROUND_LIGHT_BLUE, .foreground = FOREGROUND_LIGHT_BLUE, .symbol = '.', .height = 0.05 }, // Shallow Water
+        {.background = BACKGROUND_SAND, .foreground = FOREGROUND_SAND, .symbol = '.', .height = 0.07 }, // Sand
+        {.background = BACKGROUND_GRASS, .foreground = FOREGROUND_GRASS, .symbol = ',', .height = 0.1 }, // Grass
+        {.background = BACKGROUND_MOUNTAIN_GRASS, .foreground = FOREGROUND_MOUNTAIN_GRASS, .symbol = ':', .height = 0.12 }, // Mountain Meadow
+        {.background = BACKGROUND_CLIFF, .foreground = FOREGROUND_CLIFF, .symbol = '"', .height = 0.18 }, // Rocky
+        {.background = BACKGROUND_MOUNTAIN, .foreground = FOREGROUND_MOUNTAIN, .symbol = '*', .height = 0.4 }, // Mountain
+        {.background = BACKGROUND_MOUNTAIN_SNOW, .foreground = FOREGROUND_MOUNTAIN_SNOW, .symbol = '%', .height = 0.5 }, // Mountain tops
+        {.background = COLOR_RESET, .foreground = COLOR_RESET, .symbol = '&', .height = 0.9 }, // Snow
+        {.background = COLOR_RESET, .foreground = COLOR_RESET, .symbol = '#', .height = 1 }, // Ice
+    };
 
 
 int seed = -1;
@@ -83,15 +146,7 @@ float perlin(float x, float y) {
     return value;
 }
 
-/*
-u255A : ╚
-u255D : ╝
-u2554 : ╔
-u2557 : ╗
-u2551 : ║
-u2550 : ═
 
-*/
 
 // ARGS {weight} {seed} {draw_mode}
 // draw modes:
@@ -117,86 +172,70 @@ int main(int argc, char *argv[]) {
     }
 
 
-    printf("Generating gradient...\n");
+    printf("%sGenerating gradient...\n", COLOR_RED);
     GenerateGradient();
 
-
-    printf("%s", "\u2554");
+    printf("%s%s", COLOR_RESET, BORDER_TOP_LEFT);
     for (int x = 0; x < mapWidth; x++) {
-        printf("%s", "\u2550");
+        printf("%s", BORDER_TOP_BOTTOM);
         if (drawSymbols == 0) {
-            printf("\u2550\u2550\u2550\u2550");
+            printf("%s%s%s%s", BORDER_TOP_BOTTOM, BORDER_TOP_BOTTOM, BORDER_TOP_BOTTOM, BORDER_TOP_BOTTOM);
         }
     }
-    printf("%s", "\u2557\n");
+    printf("%s\n", BORDER_TOP_RIGHT);
 
     for (int y = 0; y < mapHeight; y++) {
-        printf("%s", "\u2551");
+        printf("%s", BORDER_LEFT_RIGHT);
         for (int x = 0; x < mapWidth; x++) {
             float sampleX = x / scale;
             float sampleY = y / scale;
             float noiseValue = fabs(perlin(sampleX, sampleY));
             float gradientValue = 1 - lerp(1, 0, noiseValue);
-            char drawChar = '_';
+            char drawChar = 'E';
 
             if (drawSymbols == 1) {
-                if (gradientValue <= 0.01) {
-                    drawChar = ' ';
-                } else if (gradientValue <= 0.05) {
-                    drawChar = ' ';
-                } else if (gradientValue <= 0.06) {
-                    drawChar = '.';
-                } else if (gradientValue <= 0.08) {
-                    drawChar = ',';
-                } else if (gradientValue <= 0.1) {
-                    drawChar = ':';
-                } else if (gradientValue <= 0.15) {
-                    drawChar = '*';
-                } else if (gradientValue <= 0.2) {
-                    drawChar = '%';
-                } else if (gradientValue <= 0.9) {
-                    drawChar = '&';
-                } else if (gradientValue <= 1) {
-                    drawChar = '#';
-                } else {
-                    drawChar = 'E';
+                for (int i = 0; i < REGION_COUNT; i++) {
+                    if (gradientValue <= regions[i].height) {
+                        printf("%s%c", regions[i].background, ' '); // regions[i].symbol);
+                        break;
+                    }
                 }
-            } else {
-                
-                if (gradientValue <= 0.05) {
-                    drawChar = ' ';
-                } else if (gradientValue <= 0.1) {
-                    drawChar = '.';
-                } else {
-                    drawChar = '#';
+            } else if (drawSymbols == 2) {
+                for (int i = 0; i < REGION_COUNT; i++) {
+                    if (gradientValue <= regions[i].height) {
+                        printf("%s%c", regions[i].background, regions[i].symbol);
+                        break;
+                    }
                 }
-            }
-            if (drawSymbols > 0) {
-                printf("%c", drawChar);
+            } else if (drawSymbols == 3) {
+                for (int i = 0; i < REGION_COUNT; i++) {
+                    if (gradientValue <= regions[i].height) {
+                        printf("%s%c", regions[i].foreground, regions[i].symbol);
+                        break;
+                    }
+                }
+            }else if (drawSymbols == 4) {
+                for (int i = 0; i < REGION_COUNT; i++) {
+                    if (gradientValue <= regions[i].height) {
+                        printf("%s%s%c", regions[i].background, regions[i].foreground, regions[i].symbol);
+                        break;
+                    }
+                }
             } else {
                 printf("%0.2f ", gradientValue);
             }
         }
-        printf("%s\n", "\u2551");
+        printf("%s%s\n", COLOR_RESET, BORDER_LEFT_RIGHT);
     }
 
-    printf("%s", "\u255A");
+    printf("%s", BORDER_BOTTOM_LEFT);
     for (int x = 0; x < mapWidth; x++) {
-        printf("%s", "\u2550");
+        printf("%s", BORDER_TOP_BOTTOM);
         if (drawSymbols == 0) {
-            printf("\u2550\u2550\u2550\u2550");
+            printf("%s%s%s%s", BORDER_TOP_BOTTOM, BORDER_TOP_BOTTOM, BORDER_TOP_BOTTOM, BORDER_TOP_BOTTOM);
         }
     }
-    printf("%s", "\u255D\n");
+    printf("%s\n", BORDER_BOTTOM_RIGHT);
 
-    /*
-    printf("Perlin for 10,10: %f\n\n\n", perlin(0.5f, 0.4f));
-    for (int y = 0; y < Y_MAX; y++) {
-        for (int x = 0; x < X_MAX; x++) {
-            printf("%0.2f %0.2f, ", Gradient[y][x][0], Gradient[y][x][1]);
-        }
-        printf("\n");
-    }
-    */
     return 0;
 }

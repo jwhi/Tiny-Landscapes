@@ -37,18 +37,24 @@
 #define FOREGROUND_MOUNTAIN "\033[38;5;240m"
 #define FOREGROUND_MOUNTAIN_SNOW "\033[38;5;15m"
 
-#define FOREGROUND_GRASS "\033[38;5;22m"
-#define FOREGROUND_MOUNTAIN_GRASS "\033[38;5;34m"
+#define FOREGROUND_GRASS_1 "\033[38;5;22m"
+#define FOREGROUND_MOUNTAIN_GRASS_1 "\033[38;5;34m"
 
 #define FOREGROUND_TREE "\033[38;5;106m"
 #define FOREGROUND_FOREST "\033[38;5;28m"
 #define FOREGROUND_WHEAT "\033[38;5;220m"
+#define FOREGROUND_GRASS_2 "\033[38;5;76m"
+#define FOREGROUND_FLOWER_PINK "\033[38;5;219m"
+#define FOREGROUND_FLOWER_PURPLE "\033[38;5;13m"
+#define FOREGROUND_MOUNTAIN_GRASS_2 "\033[38;5;112m"
+#define FOREGROUND_MOUNTAIN_WHEAT "\033[38;5;221m"
+#define FOREGROUND_MOUNTAIN_WEEDS "\033[38;5;22m"
 #define FOREGROUND_ROCKS "\033[38;5;249m"
 
 #define COLOR_RESET "\e[0m"
 
 #define REGION_COUNT 11
-#define FOLIAGE_COUNT 4
+#define FOLIAGE_COUNT 11
 
 #define BORDER_TOP_LEFT "\u2554"        // ╔
 #define BORDER_TOP_RIGHT "\u2557"       // ╗
@@ -77,9 +83,9 @@ struct region regions[REGION_COUNT] = {
         {.background = BACKGROUND_BLUE, .foreground = FOREGROUND_BLUE, .symbol = '-', .height = 0.03 }, // Water
         {.background = BACKGROUND_LIGHT_BLUE, .foreground = FOREGROUND_LIGHT_BLUE, .symbol = '.', .height = 0.05 }, // Shallow Water
         {.background = BACKGROUND_SAND, .foreground = FOREGROUND_SAND, .symbol = '.', .height = 0.07 }, // Sand
-        {.background = BACKGROUND_GRASS, .foreground = FOREGROUND_GRASS, .symbol = ',', .height = 0.132 }, // Grass
-        {.background = BACKGROUND_MOUNTAIN_GRASS, .foreground = FOREGROUND_MOUNTAIN_GRASS, .symbol = ':', .height = 0.17 }, // Mountain Meadow
-        {.background = BACKGROUND_CLIFF, .foreground = FOREGROUND_CLIFF, .symbol = '"', .height = 0.2 }, // Rocky
+        {.background = BACKGROUND_GRASS, .foreground = FOREGROUND_GRASS_1, .symbol = ',', .height = 0.15 }, // Grass
+        {.background = BACKGROUND_MOUNTAIN_GRASS, .foreground = FOREGROUND_MOUNTAIN_GRASS_1, .symbol = ':', .height = 0.19 }, // Mountain Meadow
+        {.background = BACKGROUND_CLIFF, .foreground = FOREGROUND_CLIFF, .symbol = '"', .height = 0.27 }, // Rocky
         {.background = BACKGROUND_MOUNTAIN, .foreground = FOREGROUND_MOUNTAIN, .symbol = '*', .height = 0.5 }, // Mountain
         {.background = BACKGROUND_MOUNTAIN_SNOW, .foreground = FOREGROUND_MOUNTAIN_SNOW, .symbol = '%', .height = 0.55 }, // Mountain tops
         {.background = COLOR_RESET, .foreground = COLOR_RESET, .symbol = '&', .height = 0.9 }, // Snow
@@ -87,10 +93,17 @@ struct region regions[REGION_COUNT] = {
     };
 
 struct foliage foliageTypes[FOLIAGE_COUNT] = {
-    {.background = "", .foreground = FOREGROUND_TREE, .symbol = "\u2660", .spawnRange = {0.08, 0.1}, .percantage = .1},
-    {.background = "", .foreground = FOREGROUND_FOREST, .symbol = "\u2663", .spawnRange = {0.08, 0.098}, .percantage = .15},
-    {.background = "", .foreground = FOREGROUND_WHEAT, .symbol = "\"", .spawnRange = {0.08, 0.1}, .percantage = .3},
-    {.background = "", .foreground = FOREGROUND_ROCKS, .symbol = "\u25AA", .spawnRange = {0.134, 0.165}, .percantage = .1}
+    {.background = "", .foreground = FOREGROUND_TREE, .symbol = "\u2660", .spawnRange = {0.085, 0.135}, .percantage = .125},         // Club forests
+    {.background = "", .foreground = FOREGROUND_FOREST, .symbol = "\u2663", .spawnRange = {0.08, 0.14}, .percantage = .012},    // Spade trees
+    {.background = "", .foreground = FOREGROUND_WHEAT, .symbol = "\"", .spawnRange = {0.08, 0.1}, .percantage = .23},            // Yellow Grass/Wheat
+    {.background = "", .foreground = FOREGROUND_GRASS_2, .symbol = "\"", .spawnRange = {0.08, 0.1}, .percantage = .2},            // Grass
+    {.background = "", .foreground = FOREGROUND_FLOWER_PINK, .symbol = "\u273F", .spawnRange = {0.168, 0.177}, .percantage = .01},            // Yellow Grass/Wheat
+    {.background = "", .foreground = FOREGROUND_FLOWER_PURPLE, .symbol = "\u273F", .spawnRange = {0.165, 0.174}, .percantage = .01},            // Yellow Grass/Wheat
+    {.background = "", .foreground = FOREGROUND_MOUNTAIN_GRASS_2, .symbol = "\"", .spawnRange = {0.165, 0.176}, .percantage = .03},            // Yellow Grass/Wheat
+    {.background = "", .foreground = FOREGROUND_MOUNTAIN_WHEAT, .symbol = "\"", .spawnRange = {0.155, 0.185}, .percantage = .03},            // Yellow Grass/Wheat
+    {.background = "", .foreground = FOREGROUND_MOUNTAIN_WEEDS, .symbol = "\u2448", .spawnRange = {0.137, 0.8}, .percantage = .003},            // Yellow Grass/Wheat
+    {.background = "", .foreground = FOREGROUND_ROCKS, .symbol = "\u25AA", .spawnRange = {0.2, 0.865}, .percantage = .01},      // Boulders
+    {.background = "", .foreground = FOREGROUND_ROCKS, .symbol = "\u25AA", .spawnRange = {0.085, 0.13}, .percantage = .01}      // Boulders
     /*
      * ☘	2618	 	SHAMROCK
      * ☙	2619	 	REVERSED ROTATED FLORAL HEART BULLET
